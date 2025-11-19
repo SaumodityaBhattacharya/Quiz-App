@@ -1,0 +1,93 @@
+### ========================
+### 1) Register User
+### ========================
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "saumoditya",
+  "email": "saumoditya@example.com",
+  "password": "test123"
+}
+
+###
+
+### ========================
+### 2) Login User (Auto-Store JWT Token)
+### ========================
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "saumoditya",
+  "password": "test123"
+}
+
+> {%
+    client.global.set("jwt_token", response.body.token);
+%}
+
+###
+
+### ========================
+### 3) GET All Questions (Requires JWT)
+### ========================
+GET http://localhost:8080/api/questions
+Authorization: Bearer {{jwt_token}}
+
+###
+
+### ========================
+### 4) Add New Question (Requires JWT)
+### ========================
+POST http://localhost:8080/api/questions
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "questionText": "What is Java?",
+  "optionA": "A fruit",
+  "optionB": "A programming language",
+  "optionC": "A car",
+  "optionD": "None of the above",
+  "correctAnswer": "A programming language"
+}
+
+###
+
+### ========================
+### 5) Get All Quizzes (Requires JWT)
+### ========================
+GET http://localhost:8080/api/quiz
+Authorization: Bearer {{jwt_token}}
+
+###
+
+### ========================
+### 6) Create Quiz (Requires JWT)
+### ========================
+POST http://localhost:8080/api/quiz
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "title": "Java Basics Quiz",
+  "description": "Test your Java knowledge",
+  "questionIds": [1, 2]     // change based on your DB
+}
+
+###
+
+### ========================
+### 7) Get Quiz by ID (Requires JWT)
+### ========================
+GET http://localhost:8080/api/quiz/1
+Authorization: Bearer {{jwt_token}}
+
+###
+
+### ========================
+### 8) Delete Quiz (Requires JWT)
+### ========================
+DELETE http://localhost:8080/api/quiz/1
+Authorization: Bearer {{jwt_token}}
